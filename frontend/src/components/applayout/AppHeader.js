@@ -23,13 +23,13 @@ const AppHeader = () => {
       return [
         { label: "Profile", key: "accounts/profile", type: "user", icon: null },
         { label: "Logout", key: "accounts/logout", type: "logout", icon: null },
-        { label: "", key: "accounts/game", type: "video", icon: GAME_ICON },
+        { label: "", key: "accounts/game", type: "game", icon: GAME_ICON },
       ];
     } else {
       return [
         { label: "Login", key: "accounts/login", type: "user", icon: null },
         { label: "Signup", key: "accounts/signup", type: "user", icon: null },
-        { label: "", key: "accounts/game", type: "video", icon: GAME_ICON },
+        { label: "", key: "accounts/game", type: "game", icon: GAME_ICON },
       ];
     }
   };

@@ -1,11 +1,11 @@
 import React from "react";
-import { Avatar, Card } from "antd";
+import { Avatar, Card ,Button } from "antd";
 import "./Post.scss";
 import { HeartOutlined, HeartTwoTone } from "@ant-design/icons";
 
 import CommentList from "./CommentList";
 
-function Post({ post, handleLike }) {
+function Post({ post, handleLike, handleDelete }) {
   const { author, caption, location, photo, tag_set, is_like } = post;
   const { username, name, avatar_url } = author;
 
@@ -23,24 +23,20 @@ function Post({ post, handleLike }) {
           ) : (
             <HeartOutlined onClick={() => handleLike({ post, isLike: true })} />
           ),
-        ]}
-      >
+        ]}>
         <Card.Meta
           avatar={
             <Avatar
               size="large"
-              icon={
-                <img
-                  src={ avatar_url}
-                  alt={username}
-                />
-              }
+              icon={<img src={avatar_url} alt={username} />}
             />
           }
           title={location}
           description={caption}
-          style={{ marginBottom: "0.5em" }}
-        ></Card.Meta>
+          style={{ marginBottom: "0.5em" }}></Card.Meta>
+        <div>
+          <Button onClick={() => handleDelete(post)}>삭제</Button>
+        </div>
         <CommentList post={post}></CommentList>
       </Card>
     </div>

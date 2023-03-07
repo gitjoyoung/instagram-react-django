@@ -8,6 +8,7 @@ import { Alert, Button } from "antd";
 
 function PostList() {
   //jwt 인증 토큰 발급 받아오기
+
   const {
     store: { jwtToken },
   } = useAppContext();
@@ -25,11 +26,11 @@ function PostList() {
         setPostList(data);
       } catch (error) {
         console.log("error :", error);
-      }finally {
+      } finally {
         setIsLoading(false);
       }
     };
-  
+
     fetchPosts();
   }, [refresh]);
   // 좋아요를 누를때마다 동작하는 함수 async은 비동기 처리를 뜻한다 값으로는 post 와 islike 를 받고
@@ -62,12 +63,42 @@ function PostList() {
     }
   };
 
+  // 포스트 수정 기능 구현
+  const handleUpdate = async (post) => {
+    try {
+      const { data } = await axiosInstance.put(
+        `/api/posts/${post.id}/`,
+        { caption: post.caption },
+        { headers }
+      );
+      setPostList((prevList) =>
+        prevList.map((currentPost) =>
+          currentPost.id === post.id ? { ...data } : currentPost
+        )
+      );
+    } catch (error) {
+      console.log("error :", error);
+    }
+  };
+
+  // 포스트 삭제 기능 구현
+  const handleDelete = async (post) => {
+    try {
+      await axiosInstance.delete(`/api/posts/${post.id}/`, { headers });
+      setPostList((prevList) =>
+        prevList.filter((currentPost) => currentPost.id !== post.id)
+      );
+    } catch (error) {
+      console.log("error :", error);
+    }
+  };
+
   //팔로잉 직후 표시되지 않는 현상 새로고침
   const handleRefresh = () => {
     setRefresh(!refresh);
   };
 
-  // 스켈레톤 효과 로딩시 
+  // 스켈레톤 효과 로딩시
   if (isLoading) {
     return (
       <div className="contents">
@@ -93,7 +124,15 @@ function PostList() {
       )}
       {postList &&
         postList.map((post) => {
-          return <Post post={post} key={post.id} handleLike={handleLike} />;
+          return (
+            <Post
+              post={post}
+              key={post.id}
+              handleLike={handleLike}
+              handleUpdate={handleUpdate}
+              handleDelete={handleDelete}
+            />
+          );
         })}
     </div>
   );

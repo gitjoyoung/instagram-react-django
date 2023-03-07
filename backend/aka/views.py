@@ -19,7 +19,7 @@ class PostViewSet(ModelViewSet):
         .prefetch_related("tag_set", "like_user_set")
     )
     serializer_class = PostSerializer
-    # permission_classes = [AllowAny]  # FIXME: 인증 적용
+    permission_classes = [AllowAny]  # FIXME: 인증 적용
     
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(
@@ -42,6 +42,7 @@ class PostViewSet(ModelViewSet):
             | Q(author__in=self.request.user.following_set.all())
             
         )
+        return qs
         
         # 삭제
     def destroy(self, request, *args, **kwargs):
@@ -50,16 +51,17 @@ class PostViewSet(ModelViewSet):
             return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
         self.perform_destroy(post)
         return Response(status=status.HTTP_204_NO_CONTENT)
-        
-        # qs = qs.filter(created_at__gte=timesince)
-        return qs
-    #수정
+
     def update(self, request, *args, **kwargs):
-        post = self.get_object()
-        serializer = self.get_serializer(post, data=request.data, partial=True)
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        if instance.author != request.user:
+            return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+
 
     def perform_update(self, serializer):
         serializer.save()
@@ -109,18 +111,7 @@ class CommentViewSet(ModelViewSet):
         serializer.save()
 
     def perform_destroy(self, instance):
+        if instance.author != self.request.user:
+            return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
         instance.delete()
-        
-class ProfileView(APIView):
-    def get(self, request, username):
-        user = get_user_model().objects.get(username=username)
-        data = {
-            'username': user.username,
-            'avatar_url': user.avatar_url,
-            'post_count': user.my_post_set.count(),
-            'follower_count': user.follower_set.count(),
-            'following_count': user.following_set.count(),
-            'is_following': request.user.is_authenticated and request.user != user and request.user.following_set.filter(pk=user.pk).exists(),
-            'is_self': request.user == user,
-        }
-        return Response(data)
+  

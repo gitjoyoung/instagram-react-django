@@ -7,6 +7,7 @@ import LoginRequiredRoute from "utils/LoginRequiredRoute";
 import PostNew from "./PostNew";
 import NotFound from "./NotFound"
 import SearchList from "components/SearchList";
+import SearchResult from "./account/SearchResult";
 function Root() {
   return (
     <Switch>
@@ -14,7 +15,7 @@ function Root() {
       <Route exact path="/about" component={About} />
       <LoginRequiredRoute exact path="/posts/new" component={PostNew} />
       <Route path="/accounts" component={AccountRoutes} />
-      <Route path="/search" component={SearchList} />
+      <Route path="/search" component={SearchResult} />
 
       {/* <Route  component={NotFound} /> */}
 

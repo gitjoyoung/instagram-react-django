@@ -2,12 +2,12 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import CreateAPIView, ListAPIView, get_object_or_404 
 from rest_framework.response import Response
 from .serializers import SignupSerializer, SuggestionUserSerializer ,ProfileSerializer
-
+from rest_framework.permissions import IsAuthenticated
 
 class SignupView(CreateAPIView):
     model =get_user_model()
@@ -46,17 +46,9 @@ def user_unfollow(request):
 
 
 
-
-class ProfileView(ListAPIView):
-    permission_classes = [AllowAny]
-    serializer_class = ProfileSerializer
-    
-    def get_queryset(self):
-        username = self.kwargs['username']
-        queryset = get_user_model().objects.filter(username=username)
-        return queryset
-    
-    def get(self, request, username, format=None):
-        queryset = self.get_queryset()
-        serializer = self.serializer_class(queryset, many=True, context={"request": request})
-        return Response(serializer.data)
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def profile_view(request):
+    user = request.user
+    serializer = ProfileSerializer(user)
+    return Response(serializer.data)
