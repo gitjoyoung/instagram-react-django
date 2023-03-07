@@ -43,9 +43,26 @@ class PostViewSet(ModelViewSet):
             
         )
         
+        # 삭제
+    def destroy(self, request, *args, **kwargs):
+        post = self.get_object()
+        if post.author != request.user:
+            return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
+        self.perform_destroy(post)
+        return Response(status=status.HTTP_204_NO_CONTENT)
         
         # qs = qs.filter(created_at__gte=timesince)
         return qs
+    #수정
+    def update(self, request, *args, **kwargs):
+        post = self.get_object()
+        serializer = self.get_serializer(post, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+
+    def perform_update(self, serializer):
+        serializer.save()
 
     def perform_create(self, serializer):
         # post = form.save(commit=False)
@@ -53,6 +70,8 @@ class PostViewSet(ModelViewSet):
         # post.save()
         serializer.save(author=self.request.user)
         return super().perform_create(serializer)
+    
+   
 
     @action(detail=True, methods=["POST"])
     def like(self, request, pk):
@@ -86,6 +105,12 @@ class CommentViewSet(ModelViewSet):
         serializer.save(author=self.request.user, post=post)
         return super().perform_create(serializer)
     
+    def perform_update(self, serializer):
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        instance.delete()
+        
 class ProfileView(APIView):
     def get(self, request, username):
         user = get_user_model().objects.get(username=username)
