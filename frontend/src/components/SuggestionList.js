@@ -20,7 +20,7 @@ export default function SuggestionList({ style }) {
   });
 
   useEffect(() => {
-    console.log("originUserList", refetch);
+    console.log("originUserList", originUserList);
     if (!originUserList) setUserList([]);
     else {
       const slicedUserList = originUserList.slice(0, 10);

@@ -6,7 +6,6 @@ from django.db import models
 from django.template.loader import render_to_string
 from django.shortcuts import resolve_url
 
-
 class User(AbstractUser):
     class GenderChoices(models.TextChoices):
         MALE = "M", "남성"
