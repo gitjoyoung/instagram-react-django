@@ -1,0 +1,11 @@
+docker run --rm --publish 9999:80 `
+    -e DJANGO_SETTINGS_MODULE=backend.settings.prod `
+    -e AZURE_ACCOUNT_NAME=djangoreact `
+    -e AZURE_ACCOUNT_KEY="5Q0cpC7sowX5rVdRdz9xBcSnQiOLILXyw9nGZ+rJh0ujkk16EK55WJQxG+GFYU6DDmJ573gCKXeZ+AStiGIqNw==" `
+    -e ALLOWED_HOSTS=localhost `
+    -e DB_HOST=django-react.postgres.database.azure.com `
+    
+    -e DB_USER=django@django-react `
+    -e DB_PASSWORD=qnwkehlwk1! `
+    -e DB_NAME=postgres `
+    test

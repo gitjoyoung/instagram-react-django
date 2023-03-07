@@ -1,0 +1,19 @@
+FROM ubuntu:18.04
+
+RUN apt-get update && apt-get install -y python3-pip zlib1g-dev libpq-dev libjpeg-dev python3-dev  && apt-get clean
+
+WORKDIR /djangoproject
+
+ADD . /djangoproject
+
+RUN pip3 install -r requirements.txt
+
+
+ENV PYTHONUNBUFFERD =1
+
+
+
+
+EXPOSE 80
+
+CMD ["gunicorn" ,"backend.wsgi:application", "--bind","0.0.0.0:80"]

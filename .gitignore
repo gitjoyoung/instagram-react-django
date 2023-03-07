@@ -1,0 +1,7 @@
+*.log
+*.sqlite3
+.dokerfile
+.dokerignore
+node_modules/
+backend/media/*
+frontend/node_modules/*
