@@ -32,41 +32,32 @@ class SuggestionUserSerializer(serializers.ModelSerializer):
         class Meta:
             model =User
             fields =["username" , "name" ,"avatar_url"]
-            
+  
+class ProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(read_only=True)
+    following_set = serializers.StringRelatedField(many=True)
+    follower_set = serializers.StringRelatedField(many=True)
+    avatar_url = serializers.SerializerMethodField("avatar_url_field")
+    
+    followers_count = serializers.SerializerMethodField()
+    followings_count = serializers.SerializerMethodField()
+    
+    
+ 
+    def avatar_url_field(self, author):
+            if re.match(r"^https?://", author.avatar_url):
+                return author.avatar_url
 
-# class ProfileSerializer(serializers.ModelSerializer):
-#         post_count = serializers.SerializerMethodField()
-#         follower_count = serializers.SerializerMethodField()
-#         following_count = serializers.SerializerMethodField()
-#         avatar_url = serializers.SerializerMethodField("avatar_url_field")
+            if "request" in self.context:
+                scheme = self.context["request"].scheme
+                host = self.context["request"].get_host()
+                return scheme + "://" + host + author.avatar_url
 
-#         def avatar_url_field(self, author):
-#             print("author",author)
-#             if re.match(r"^https?://", author.avatar_url):
-#                 return author.avatar_url
+    class Meta:
+        model = User
+        fields = ('username',  'avatar_url', 'followers_count', 'followings_count','following_set', 'follower_set')
+    def get_followers_count(self, obj):
+        return obj.follower_set.count()
 
-#             if "request" in self.context:
-#                 scheme = self.context["request"].scheme
-#                 host = self.context["request"].get_host()
-#                 return scheme + "://" + host + author.avatar_url 
-            
-      
-
-#         class Meta:
-#             model = User
-#             fields = [
-#                 "username",
-#                 "avatar_url",
-#                 "post_count",
-#                 "follower_count",
-#                 "following_count",
-#             ]
-
-#         def get_post_count(self, obj):
-#             return obj.my_post_set.count()
-
-#         def get_follower_count(self, obj):
-#             return obj.follower_set.count()
-
-#         def get_following_count(self, obj):
-#             return obj.following_set.count()
+    def get_followings_count(self, obj):
+        return obj.following_set.count() 

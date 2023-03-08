@@ -16,46 +16,53 @@ function Profile({ props }) {
 
 
   const [{ data: response, loading, error }, refetch] = useAxios({
-    url: "/api/profile/",
+    url: "/accounts/profile/",
+    headers,
   });
 
-  if(!response){
-    setProfileData(response.data);
-    console.log("profileData",profileData)
-  }
+  useEffect(() => {
+    if (response) {
+      setProfileData(response.data);
+      console.log("profileData", profileData);
+    }
+    if (loading) {
+      return <div>Loading...</div>;
+    }
+    if (error) {
+      console.log("error",error);
+      return <div>Error!</div>;
+    }
+  }, [response] );
 
-  if (!profileData) {
-    return <div>Loading...</div>;
-  }
 
-  // const items = [
-  //   {
-  //     label: "Avtar",
-  //     key: "avtar",
-  //     icon: (
-  //       <Avatar
-  //         size="large"
-  //         icon={<img src={profileData.avatar_url} alt={"유저아이디"} />}
-  //       />
-  //     ),
-  //   },
-  //   {
-  //     label: <Link to={"/"}>닉네임 : {profileData.username}</Link>,
-  //     key: "nick",
-  //   },
-  //   {
-  //     label: <Link to={"/"}>작성글수 : {profileData.post_count}</Link>,
-  //     key: "caption",
-  //   },
-  //   {
-  //     label: <Link to={"/"}>팔로잉 : {profileData.following_count}</Link>,
-  //     key: "pllowing",
-  //   },
-  //   {
-  //     label: <Link to={"/"}>팔로워 : {profileData.follower_count}</Link>,
-  //     key: "app",
-  //   },
-  // ];
+  const items = response ? [
+    {
+      label: "Avtar",
+      key: "avtar",
+      icon: (
+        <Avatar
+          size="large"
+          icon={<img src={profileData.avatar_url} alt={"유저아이디"} />}
+        />
+      ),
+    },
+    {
+      label: <Link to={"/"}>닉네임 : {profileData.username}</Link>,
+      key: "nick",
+    },
+    {
+      label: <Link to={"/"}>작성글수 : {profileData.post_count}</Link>,
+      key: "caption",
+    },
+    {
+      label: <Link to={"/"}>팔로잉 : {profileData.following_count}</Link>,
+      key: "pllowing",
+    },
+    {
+      label: <Link to={"/"}>팔로워 : {profileData.follower_count}</Link>,
+      key: "app",
+    },
+  ] :null ;
   console.log("profileData", profileData);
   return (
     <div className="Profile">

@@ -4,9 +4,9 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
-from rest_framework.generics import CreateAPIView, ListAPIView, get_object_or_404  
+from rest_framework.generics import CreateAPIView, ListAPIView, get_object_or_404  ,RetrieveAPIView
 from rest_framework.response import Response
-from .serializers import SignupSerializer, SuggestionUserSerializer 
+from .serializers import SignupSerializer, SuggestionUserSerializer  ,ProfileSerializer
 from rest_framework.permissions import IsAuthenticated
 
 class SignupView(CreateAPIView):
@@ -45,3 +45,9 @@ def user_unfollow(request):
 
 
 
+class ProfileView(RetrieveAPIView):
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_object(self):
+        return self.request.user

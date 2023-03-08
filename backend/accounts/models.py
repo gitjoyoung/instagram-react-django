@@ -48,3 +48,5 @@ class User(AbstractUser):
         )
         sender_email = settings.WELCOME_EMAIL_SENDER
         send_mail(subject, content, sender_email, [self.email], fail_silently=False)
+        
+    
