@@ -5,7 +5,7 @@ import { HeartOutlined, HeartTwoTone } from "@ant-design/icons";
 
 import CommentList from "./CommentList";
 
-function Post({ post, handleLike, handleDelete }) {
+function Post({ post, handleLike, handleDelete ,handleUpdate}) {
   const { author, caption, location, photo, tag_set, is_like } = post;
   const { username, name, avatar_url } = author;
 
@@ -34,6 +34,9 @@ function Post({ post, handleLike, handleDelete }) {
           title={location}
           description={caption}
           style={{ marginBottom: "0.5em" }}></Card.Meta>
+        <div>
+          <Button onClick={() => handleUpdate(post)}>수정</Button>
+        </div>
         <div>
           <Button onClick={() => handleDelete(post)}>삭제</Button>
         </div>

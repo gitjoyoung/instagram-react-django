@@ -1,27 +1,29 @@
 //GameApp 게임 페이지
 .Profile {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  
-    grid-template-areas:
-      "header header header"
-      "contents contents contents"
-      "footer footer footer";
-    gap: 1rem;
-    width: 1024px;
-    max-width: 100%;
-    margin: 0px auto;
-  
-    .Profile_header {
-      grid-area: header;
-    }
-    .Profile_contents {
-      grid-area: contents;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 
-    }
-    .Profile_footer {
-      grid-area: footer;
-      align-items: center;
-    }
+  grid-template-areas:
+    "header header header"
+    "contents contents contents"
+    "footer footer footer";
+  gap: 1rem;
+  width: 1024px;
+  max-width: 100%;
+  margin: 0px auto;
+
+  .Profile_header {
+    grid-area: header;
   }
-  
+  .Profile_contents {
+    min-height: 1000px;
+
+    width: 600px;
+    justify-self: center;
+    grid-area: contents;
+  }
+  .Profile_footer {
+    grid-area: footer;
+    align-items: center;
+  }
+}

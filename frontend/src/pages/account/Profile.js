@@ -1,4 +1,5 @@
 import { Card, Form, Avatar, Menu } from "antd";
+import AppFootter from "components/applayout/AppFooter";
 import AppHeader from "components/applayout/AppHeader";
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
@@ -25,32 +26,29 @@ function Profile({ props }) {
     }
   }, [response]);
 
-  console.log("response",response)
+  console.log("response", response);
   let items = null;
   if (profileData) {
     items = [
       {
-        label: "Avtar",
+        label: profileData.username,
         key: "avtar",
         icon: (
           <Avatar
-            size="large"
-            icon={<img src={profileData.avatar_url} alt={"유저아이디"} />}
+            size={{ xxl: 200 }}
+            icon={<img src={profileData.avatar_url} alt={"유저아이디"}></img>}
           />
         ),
       },
       {
-        label: <Link to={"/"}>닉네임 : {profileData.username}</Link>,
-        key: "nick",
-      },
-      {
-        label: <Link to={"/"}>작성글수 : {profileData.post_count}</Link>,
+        label: (
+          <Link to={`/search/${profileData.username}`}>
+            Feed : {profileData.post_count}
+          </Link>
+        ),
         key: "caption",
       },
-      {
-        label: <Link to={"/"}>팔로잉 : {profileData.followings_count}</Link>,
-        key: "pllowing",
-      },
+
       {
         label: <Link to={"/"}>팔로잉 : {profileData.followings_count}</Link>,
         key: "followings_count",
@@ -64,9 +62,24 @@ function Profile({ props }) {
 
   return (
     <div className="Profile">
-      <div className="Profile_header"></div>
+      <div className="Profile_header">
+        <AppHeader></AppHeader>
+      </div>
+
       <div className="Profile_contents">
-        <Card><Menu mode="horizontal" items={items}/></Card>
+
+        <Card title="profile 페이지!">
+          <Menu
+            mode="horizontal"
+            items={items}
+          />
+        </Card>
+        <Card>
+          <p>뭐를 보여줄까요?</p>
+        </Card>
+      </div>
+      <div className="Profile_footer">
+        <AppFootter></AppFootter>
       </div>
     </div>
   );

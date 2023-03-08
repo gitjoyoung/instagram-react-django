@@ -16,6 +16,11 @@ export const Game = () => {
       <div className="game_footer">
         <AppFooter />
       </div>
+
+      <div className="firework">
+        <div className="firework-before">asd</div>
+        <div className="firework-after">asd</div>
+      </div>
     </div>
   );
 };

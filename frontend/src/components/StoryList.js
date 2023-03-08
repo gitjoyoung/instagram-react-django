@@ -10,7 +10,7 @@ export default function StoryList({ style }) {
         {" "}
         StoryList
       </Card>
-      
+   
     </div>
   );
 }

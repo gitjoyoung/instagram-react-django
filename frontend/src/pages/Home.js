@@ -4,7 +4,6 @@ import SideBar from "components/SideBar";
 import AppHeader from "components/applayout/AppHeader";
 import AppFooter from "components/applayout/AppFooter";
 import "./Home.scss";
-
 function Home() {
   return (
     <div className="Home">

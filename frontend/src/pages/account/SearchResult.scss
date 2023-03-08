@@ -1,0 +1,25 @@
+.SearchResult {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      "header header header"
+      "contents contents contents"
+      "footer footer footer";
+    gap: 1rem;
+    width: 1024px;
+    max-width: 100%;
+    margin: 0px auto;
+  
+    .SearchResult_header {
+      grid-area: header;
+    }
+    .SearchResult_contents {
+      grid-area: contents;
+
+    }
+    .SearchResult_footer {
+      grid-area: footer;
+      align-items: center;
+    }
+  }
+  

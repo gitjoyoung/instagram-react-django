@@ -27,7 +27,7 @@ function NumberGame() {
       setLowOrHi("");
       setGameOver(true);
     } else {
-      setLastResult("틀렸습니다!!");
+      setLastResult(`틀렸습니다!!  ${7 - guessCount} 번의 기회가 남았습니다`);
       if (userGuess < randomNumber) {
         setLowOrHi("입력하신 숫자보다 커요!");
       } else if (userGuess > randomNumber) {
@@ -49,7 +49,8 @@ function NumberGame() {
   }
 
   return (
-      <Card className="contents">
+    <>
+      <Card style={{ maxWidth: 600 }}>
         <h1>숫자 맞추기 게임</h1>
 
         <p>
@@ -67,7 +68,7 @@ function NumberGame() {
         </form>
 
         <div>
-          <p> 시도 횟수 : {guesses.join(" ")}</p>
+          <p> 시도 번호 : {guesses.join(" ")}</p>
           <p
             className="lastResult"
             style={{
@@ -77,12 +78,14 @@ function NumberGame() {
             }}>
             {lastResult}
           </p>
-          {randomNumber}
           <p className="lowOrHi">{lowOrHi}</p>
         </div>
 
         {gameOver && <button onClick={resetGame}>Start new game</button>}
       </Card>
+
+    
+    </>
   );
 }
 

@@ -16,13 +16,48 @@
     grid-area: header;
   }
   .game_contents {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    min-height: 1000px;
+    text-align: -webkit-center;
     grid-area: contents;
   }
   .game_footer {
     grid-area: footer;
     align-items: center;
   }
+}
+
+
+
+.firework {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  margin: 0 auto;
+}
+
+.firework-before,
+.firework-after {
+  position: absolute;
+  content: "";
+  border-radius: 50%;
+}
+
+.firework-before {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 1;
+}
+
+.firework-after {
+  width: 100%;
+  height: 100%;
+  background-color: #ff0;
+  z-index: 0;
+  transform: scale(0);
+  transition: transform 0.5s ease-in-out;
+}
+
+.firework:hover .firework-after {
+  transform: scale(1);
 }

@@ -1,12 +1,11 @@
 import React from "react";
-import { Route ,Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Home from "./Home";
 import About from "./About";
 import AccountRoutes from "./account";
 import LoginRequiredRoute from "utils/LoginRequiredRoute";
 import PostNew from "./PostNew";
-import NotFound from "./NotFound"
-import SearchList from "components/SearchList";
+import NotFound from "./NotFound";
 import SearchResult from "./account/SearchResult";
 function Root() {
   return (
@@ -17,8 +16,7 @@ function Root() {
       <Route path="/accounts" component={AccountRoutes} />
       <Route path="/search" component={SearchResult} />
 
-      {/* <Route  component={NotFound} /> */}
-
+      <Route component={NotFound} />
     </Switch>
   );
 }

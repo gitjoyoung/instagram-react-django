@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "antd/dist/antd.css";
-import GameIcon from "assets/joystick.png"
-import LogoImage from "assets/logo.png"
-import Search from "../Search"
+import GameIcon from "assets/joystick.png";
+import LogoImage from "assets/logo.png";
+import Search from "../Search";
 import { Menu, message } from "antd";
 import { useHistory, useLocation, Link } from "react-router-dom";
 import { useAppContext, deleteToken } from "store";
@@ -70,6 +70,7 @@ const AppHeader = () => {
       </div>
       <div className="header_menu">
         <Menu
+          style={{ justifyContent: "right" , borderBottom:"none"}}
           onClick={(item) => {
             handleMenuClick(item.key);
           }}

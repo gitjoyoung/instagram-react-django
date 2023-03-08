@@ -1,11 +1,23 @@
 .header_component {
   width: 1024px;
   max-width: 100%;
-  margin: 10px auto;
-  display: flex;
-  justify-content: space-between;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+
+  grid-template-areas: "title search search   menu";
+
   align-items: center;
-}
-.header_menu {
-  width: 240px;
+
+  .header_title {
+    grid-area: title;
+  }
+  .header_search {
+    justify-self: center;
+    grid-area: search;
+  }
+  .header_menu {
+    
+    grid-area: menu;
+  }
 }

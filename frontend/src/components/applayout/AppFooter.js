@@ -4,7 +4,7 @@ import "./AppFooter.scss"
 
 function AppFootter() {
   return (
-    <div className="footer">AppFootter</div>
+    <div className="footer"><p>hellow instagram</p></div>
   )
 }
 

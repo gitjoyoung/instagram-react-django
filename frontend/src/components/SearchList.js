@@ -1,72 +1,76 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import AppHeader from "components/applayout/AppHeader";
-import { axiosInstance } from "utils/api";
 import { Alert, Card } from "antd";
 import { useAppContext } from "store";
+import { axiosInstance, useAxios } from "utils/api";
+
 const SearchList = () => {
   const location = useLocation();
   const searchQuery = new URLSearchParams(location.search).get("query");
-  const [searchTerm, setSearchTerm] = useState(searchQuery);
-  const [searchResults, setSearchResults] = useState([null]);
 
-  console.log("searchResults", searchResults);
+  const [searchListTerm, setSearchListTerm] = useState(searchQuery);
+  const [searchResults, setSearchResults] = useState([]);
 
-  console.log("searchTerm", searchTerm);
   const {
     store: { jwtToken },
   } = useAppContext();
 
   const headers = { Authorization: `JWT ${jwtToken}` };
 
-  useEffect(() => {
-    const fetchSearchResults = async () => {
-      try {
-        const { data } = await axiosInstance.get("/api/posts/?search=", {
-          headers,
-          params: {
-            username: searchTerm,
-          },
-        });
-        console.log("data", data);
-        setSearchResults(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
+  const [{ data: response, loading, error }, refetch] = useAxios({
+    url: "/api/posts/",
+    headers,
+    params: {
+      username: searchListTerm,
+    },
+  });
 
-    if (searchTerm) {
-      fetchSearchResults();
-    } else {
-      setSearchResults([]);
+  useEffect(() => {
+    setSearchListTerm(searchQuery);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    if (response) {
+      setSearchResults(response);
     }
-  }, [searchTerm]);
+  }, [response]);
 
   return (
     <>
       <div>
-        <h1>Search Results for "{searchTerm}"</h1>
-        {searchResults && searchResults.length ? (
-          searchResults.map(
-            (post) =>
-              post && (
-                <Card key={post.id}>
-                  <Card.Meta
-                    avatar={
-                      <img
-                        style={{ width: 300 }}
-                        src={post.photo}
-                        alt={post.caption}
-                      />
-                    }
-                    title={post.author.username}
-                    description={post.caption}
-                    style={{ marginBottom: "0.5em" }}></Card.Meta>
-                </Card>
-              )
-          )
+        <h1>Search Results for "{searchListTerm}"</h1>
+        {loading && <p>Loading...</p>}
+        {error && (
+          <Alert
+            message={`Failed to load search results: ${error.message}`}
+            type="error"
+          />
+        )}
+        {searchResults.length ? (
+          searchResults.map((post, index) => (
+            <Card key={post.id}>
+              <Card.Meta
+                avatar={
+                  <img
+                    style={{ width: 150, height: 150 }}
+                    src={post.photo}
+                    alt={post.caption}
+                  />
+                }
+                title={post.author.username}
+                description={post.caption}
+                style={{ marginBottom: "0.5em" }}
+              />
+              <p style={{ marginTop: "0.5em", textAlign: "right" }}>
+                #{searchResults.length - index}
+              </p>
+            </Card>
+          ))
         ) : (
-          <Alert message={`No results for "${searchTerm}"`} type="warning" />
+          <Alert
+            message={`No results for "${searchListTerm}"`}
+            type="warning"
+          />
         )}
       </div>
     </>

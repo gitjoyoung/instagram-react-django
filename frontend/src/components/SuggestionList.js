@@ -42,6 +42,25 @@ export default function SuggestionList({ style }) {
             user.username !== username ? user : { ...user, is_follow: true }
           )
         );
+        console.log(" 팔로우 response",response)
+
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const unFollowUser = (username) => {
+    const data = { username };
+    const config = { headers };
+    axiosInstance
+      .post("accounts/unfollow/", data, config)
+      .then((response) => {
+        setUserList((prevUserList) =>
+          prevUserList.map((user) =>
+            user.username !== username ? user : { ...user, is_follow: false }
+          )
+        );
+        console.log(" 언팔로우 response",response)
       })
       .catch((error) => {
         console.log(error);
@@ -59,6 +78,7 @@ export default function SuggestionList({ style }) {
             key={suggestionUser.username}
             suggestionUser={suggestionUser}
             onFollowUser={onFollowUser}
+            unFollowUser={unFollowUser}
           />
         ))}
       </Card>

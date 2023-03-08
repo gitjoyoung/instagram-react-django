@@ -4,7 +4,7 @@ import { axiosInstance } from "utils/api";
 import Skeleton from "react-loading-skeleton";
 import Post from "./Post";
 import { useAppContext } from "store";
-import { Alert, Button } from "antd";
+import { Alert, Button, Badge, Avatar, Col, Row } from "antd";
 
 function PostList() {
   //jwt 인증 토큰 발급 받아오기
@@ -116,9 +116,14 @@ function PostList() {
 
   return (
     <div className="contents">
-      <div>
-        <Button onClick={handleRefresh}>Refresh</Button>
+      <div style={{textAlign:"center"}}>
+        <Badge count={1000} overflowCount={999}>
+          <Button onClick={handleRefresh}>
+            <p>NEW FEED </p>
+          </Button>
+        </Badge>
       </div>
+
       {postList && postList.length === 0 && (
         <Alert type="warning" message="포스팅이없습니다"></Alert>
       )}
