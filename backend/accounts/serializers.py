@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 import re
+from aka.serializers import PostSerializer
+
 User = get_user_model()
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -38,10 +40,9 @@ class ProfileSerializer(serializers.ModelSerializer):
     following_set = serializers.StringRelatedField(many=True)
     follower_set = serializers.StringRelatedField(many=True)
     avatar_url = serializers.SerializerMethodField("avatar_url_field")
-    
+    post_count = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
     followings_count = serializers.SerializerMethodField()
-    
     
  
     def avatar_url_field(self, author):
@@ -52,12 +53,14 @@ class ProfileSerializer(serializers.ModelSerializer):
                 scheme = self.context["request"].scheme
                 host = self.context["request"].get_host()
                 return scheme + "://" + host + author.avatar_url
-
-    class Meta:
-        model = User
-        fields = ('username',  'avatar_url', 'followers_count', 'followings_count','following_set', 'follower_set')
     def get_followers_count(self, obj):
         return obj.follower_set.count()
 
     def get_followings_count(self, obj):
         return obj.following_set.count() 
+    def get_post_count(self, obj):
+        return obj.my_post_set.count()
+
+    class Meta:
+        model = User
+        fields = ('username','post_count'  , 'avatar_url', 'followers_count', 'followings_count','following_set', 'follower_set')
