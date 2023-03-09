@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useAxios } from "utils/api";
 import { axiosInstance } from "utils/api";
 import Skeleton from "react-loading-skeleton";
@@ -14,9 +14,11 @@ function PostList() {
   } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
   const headers = { Authorization: `JWT ${jwtToken}` };
-
+  const [newPostCount, setNewPostCount] = useState(0);
   const [postList, setPostList] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
+  // 포스트 정보를 받아온다
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -24,15 +26,29 @@ function PostList() {
           headers,
         });
         setPostList(data);
+        setInitialLoad(false);
       } catch (error) {
         console.log("error :", error);
       } finally {
         setIsLoading(false);
       }
     };
-
+  
     fetchPosts();
-  }, [refresh]);
+    const interval = setInterval(() => {
+      fetchPosts();
+    }, 5000); // 5초 마다 조회
+    return () => clearInterval(interval);
+  }, []);
+  
+  useEffect(() => {
+    if (!initialLoad) {
+      const newPosts = postList.filter(
+        (post) => !postList.some((existingPost) => existingPost.id === post.id)
+      );
+      setNewPostCount((prevCount) => prevCount + newPosts.length);
+    }
+  }, [postList]);
   // 좋아요를 누를때마다 동작하는 함수 async은 비동기 처리를 뜻한다 값으로는 post 와 islike 를 받고
   // apiurl 에 요청할 주소를 담고
   // 메소드에 좋아요의 선택을 담아서
@@ -93,9 +109,12 @@ function PostList() {
     }
   };
 
-  //팔로잉 직후 표시되지 않는 현상 새로고침
+  //팔로잉 직후 리프레쉬를
   const handleRefresh = () => {
-    setRefresh(!refresh);
+    const newPosts = postList.filter(
+      (post) => !postList.some((existingPost) => existingPost.id === post.id)
+    );
+    setNewPostCount(newPosts.length);
   };
 
   // 스켈레톤 효과 로딩시
@@ -116,8 +135,8 @@ function PostList() {
 
   return (
     <div className="contents">
-      <div style={{textAlign:"center"}}>
-        <Badge count={1000} overflowCount={999}>
+      <div style={{ textAlign: "center" }}>
+        <Badge count={newPostCount} overflowCount={100}>
           <Button onClick={handleRefresh}>
             <p>NEW FEED </p>
           </Button>
