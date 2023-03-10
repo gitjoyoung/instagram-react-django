@@ -35,20 +35,11 @@ function PostList() {
     };
   
     fetchPosts();
-    const interval = setInterval(() => {
-      fetchPosts();
-    }, 5000); // 5초 마다 조회
-    return () => clearInterval(interval);
+   
   }, []);
   
-  useEffect(() => {
-    if (!initialLoad) {
-      const newPosts = postList.filter(
-        (post) => !postList.some((existingPost) => existingPost.id === post.id)
-      );
-      setNewPostCount((prevCount) => prevCount + newPosts.length);
-    }
-  }, [postList]);
+
+
   // 좋아요를 누를때마다 동작하는 함수 async은 비동기 처리를 뜻한다 값으로는 post 와 islike 를 받고
   // apiurl 에 요청할 주소를 담고
   // 메소드에 좋아요의 선택을 담아서
