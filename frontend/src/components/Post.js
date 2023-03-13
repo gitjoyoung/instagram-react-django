@@ -22,7 +22,11 @@ function Post({ post, handleLike, handleDelete ,handleUpdate}) {
             />
           ) : (
             <HeartOutlined onClick={() => handleLike({ post, isLike: true })} />
-          ),
+          ),   <div>
+          <Button onClick={() => handleUpdate(post)}>수정</Button>
+        </div>,  <div>
+          <Button onClick={() => handleDelete(post)}>삭제</Button>
+        </div>
         ]}>
         <Card.Meta
           avatar={
@@ -34,12 +38,7 @@ function Post({ post, handleLike, handleDelete ,handleUpdate}) {
           title={location}
           description={caption}
           style={{ marginBottom: "0.5em" }}></Card.Meta>
-        <div>
-          <Button onClick={() => handleUpdate(post)}>수정</Button>
-        </div>
-        <div>
-          <Button onClick={() => handleDelete(post)}>삭제</Button>
-        </div>
+  
         <CommentList post={post}></CommentList>
       </Card>
     </div>
