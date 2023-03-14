@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import {  Input, Button  } from "antd";
+import { Input, Button } from "antd";
 import { axiosInstance, useAxios } from "utils/api";
 import { useAppContext } from "store";
 import Comment from "./Comment";
@@ -23,7 +23,7 @@ export default function CommentList({ post }) {
     console.group("handleComment save");
     console.log(commentContent);
     console.log(headers);
-    
+
     console.groupEnd();
     const apiUrl = `/api/posts/${post.id}/comments/`;
 
@@ -41,25 +41,42 @@ export default function CommentList({ post }) {
     }
   };
 
+  const [maxVisibleComments, setMaxVisibleComments] = useState(2);
+  const [showMore, setShowMore] = useState(false);
+
+  // 댓글 표시 개수를 조절하는 함수
+  const handleShowMore = () => {
+    setShowMore(!showMore);
+    if (!showMore) {
+      setMaxVisibleComments(commentList.length);
+    } else {
+      setMaxVisibleComments(2);
+    }
+  };
 
   return (
     <div>
       {commentList &&
-        commentList.sort((a, b) => a.id - b.id).map((comment) => (
-          <Comment key={comment.id} comment={comment}></Comment>
-        ))}
-
+        commentList
+          .sort((a, b) => a.id - b.id)
+          .slice(0, maxVisibleComments)
+          .map((comment) => (
+            <Comment key={comment.id} comment={comment}></Comment>
+          ))}
+      {commentList && commentList.length > 3 && (
+        <span onClick={handleShowMore} style={{ color: "blue" }}>
+          {showMore ? "접기" : "더 보기"}
+        </span>
+      )}
       <Input.TextArea
         style={{ marginBottom: ".5em" }}
         onChange={(e) => setcommentContent(e.target.value)}
-        value={commentContent}
-      ></Input.TextArea>
+        value={commentContent}></Input.TextArea>
       <Button
         block
         type="primary"
         disabled={commentContent.length === 0}
-        onClick={handleCommentSave}
-      >
+        onClick={handleCommentSave}>
         댓글쓰기
       </Button>
     </div>

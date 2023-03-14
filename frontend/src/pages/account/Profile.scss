@@ -6,6 +6,7 @@
   grid-template-areas:
     "header header header"
     "contents contents contents"
+    "mypost mypost mypost"
     "footer footer footer";
   gap: 1rem;
   width: 1024px;
@@ -16,11 +17,37 @@
     grid-area: header;
   }
   .Profile_contents {
-    min-height: 1000px;
-
-    width: 600px;
+    width: 90%;
     justify-self: center;
     grid-area: contents;
+    display: grid;
+   
+  
+    grid-template-areas:
+      "avatar avatar username username"
+      "avatar avatar detail detail";
+
+    .profile_avatar {
+      justify-self: center;
+      grid-area: avatar;
+    }
+    .profile_username {
+      grid-area: username;
+    }
+    .profile_detail {
+      display: flex;
+      grid-area: detail;
+      .detail_item {
+        margin-right: 20px;
+      }
+    }
+  }
+  .profile_mypost {
+    justify-self: center;
+    width: 95%;
+    border-top: 1px solid #000;
+    margin-top: 30px;
+    grid-area: mypost;
   }
   .Profile_footer {
     grid-area: footer;

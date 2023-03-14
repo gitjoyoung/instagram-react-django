@@ -2,7 +2,6 @@ import React, { createContext, useContext } from "react";
 import { getStoregeItem, setStoregeItem } from "utils/useLocalStorage";
 import useReducerWithSideEffects, {
   UpdateWithSideEffect,
-  Update,
 } from "use-reducer-with-side-effects";
 
 const AppContext = createContext();

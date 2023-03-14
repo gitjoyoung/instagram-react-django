@@ -32,7 +32,11 @@ export default function PostNewForm() {
   };
 
   const handleFinish = async (fieldValues) => {
-    const { caption, location, photo: { fileList } } = fieldValues;
+    const {
+      caption,
+      location,
+      photo: { fileList },
+    } = fieldValues;
     const formData = new FormData();
     formData.append("caption", caption);
     formData.append("location", location);
@@ -41,7 +45,9 @@ export default function PostNewForm() {
     const headers = { Authorization: `JWT ${jwtToken}` };
 
     try {
-      const response = await axiosInstance.post("/api/posts/", formData, { headers });
+      const response =  await axiosInstance.post("/api/posts/", formData, {
+        headers,
+      });
       notification.open({
         message: "게시글 작성 확인",
         description: "게시글 작성하였습니다 ",
@@ -95,56 +101,52 @@ export default function PostNewForm() {
         </Upload>
       </Form.Item>
       <Form.Item
-    label="제목"
-    name="location"
-    rules={[{ required: true, message: "제목을 입력해주세요." }]}
-    hasFeedback
-    {...fieldErrors.location}
-  >
-    <Input />
-  </Form.Item>
+        label="제목"
+        name="location"
+        rules={[{ required: true, message: "제목을 입력해주세요." }]}
+        hasFeedback
+        {...fieldErrors.location}>
+        <Input />
+      </Form.Item>
 
-  <Form.Item
-    label="내용"
-    name="caption"
-    rules={[{ required: true, message: "내용을 입력해주세요." }]}
-    hasFeedback
-    {...fieldErrors.caption}
-    {...fieldErrors.non_field_errors}
-  >
-    <Input.TextArea />
-  </Form.Item>
+      <Form.Item
+        label="내용"
+        name="caption"
+        rules={[{ required: true, message: "내용을 입력해주세요." }]}
+        hasFeedback
+        {...fieldErrors.caption}
+        {...fieldErrors.non_field_errors}>
+        <Input.TextArea />
+      </Form.Item>
 
-  <Form.Item
-    label="태그"
-    name="tag"
-    rules={[{ required: false, message: "tag을 입력해주세요." }]}
-    hasFeedback
-    {...fieldErrors.caption}
-    {...fieldErrors.non_field_errors}
-  >
-    <Input.TextArea />
-  </Form.Item>
+      <Form.Item
+        label="태그"
+        name="tag"
+        rules={[{ required: false, message: "tag을 입력해주세요." }]}
+        hasFeedback
+        {...fieldErrors.caption}
+        {...fieldErrors.non_field_errors}>
+        <Input.TextArea />
+      </Form.Item>
 
-  <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-    <Button type="primary" htmlType="submit">
-      Submit
-    </Button>
-  </Form.Item>
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Button type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
 
-  <Modal
-    visible={previewPhoto.visible}
-    footer={null}
-    onCancel={() => setPreviewPhoto({ visible: false })}
-  >
-    <img
-      src={previewPhoto.base64}
-      style={{ width: "100%" }}
-      alt="Preview"
-    />
-  </Modal>
+      <Modal
+        visible={previewPhoto.visible}
+        footer={null}
+        onCancel={() => setPreviewPhoto({ visible: false })}>
+        <img
+          src={previewPhoto.base64}
+          style={{ width: "100%" }}
+          alt="Preview"
+        />
+      </Modal>
 
-  <hr />
-</Form>
+      <hr />
+    </Form>
   );
 }

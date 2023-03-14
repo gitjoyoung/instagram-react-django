@@ -1,4 +1,4 @@
-import React, { useState ,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { axiosInstance } from "utils/api";
 import { SmileOutlined, FrownOutlined } from "@ant-design/icons";
 import { Row, Col, Form, Input, Button, notification, Card } from "antd";
@@ -23,8 +23,6 @@ export default function Signup() {
       });
     }
   }, [isAuthenticated, history]);
-
-
 
   const onFinish = (values) => {
     async function fn() {
@@ -83,9 +81,10 @@ export default function Signup() {
             <Card title="회원가입">
               <Form
                 // {...Layout}
+
                 name="basic"
                 labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
+                wrapperCol={{ span: 8 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 // onFinishFailed={onFinishFailed}
@@ -102,7 +101,7 @@ export default function Signup() {
                   ]}
                   hasFeedback
                   {...fieldErrors.username}>
-                  <Input />
+                  <Input  autoFocus/>
                 </Form.Item>
 
                 <Form.Item

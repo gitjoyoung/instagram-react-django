@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Avatar, Switch,Space } from "antd";
+import { Avatar, Switch,Space } from "antd";
 import "./Suggestion.scss";
 
 export default function Suggestion({

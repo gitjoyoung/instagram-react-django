@@ -13,7 +13,6 @@ function Login({ children }) {
   const [filedErrors, setFiledErrors] = useState({});
   const history = useHistory();
   const location = useLocation();
-
   const { from: LoginRedirectUrl } = location.state || {
     from: { pathname: "/" },
   };
@@ -31,8 +30,6 @@ function Login({ children }) {
       });
     }
   }, [isAuthenticated, history]);
-
- 
 
   // 회원가입 summit 넘기면 통신 비동기처리
   const onFinish = (values) => {
@@ -60,22 +57,21 @@ function Login({ children }) {
         history.push(LoginRedirectUrl);
       } catch (error) {
         //  실패시!!
-        if (error.response) {
+        if (error) {
           notification.open({
             message: "로그인실패 ",
             description: " 아이디 / 암호를 확인해주세요",
-            icon: <SmileOutlined style={{ color: "#fff333" }} />,
+            icon: <SmileOutlined style={{ color: "#ff4333" }} />,
           });
           const { data: fieldsErrorsMessages } = error.response;
-
           setFiledErrors(parseErrorMessages(fieldsErrorsMessages));
+
+          console.log("filedErrors", filedErrors);
         }
       }
     }
     fn();
-    
   };
-  
 
   return (
     <div className="Login">
@@ -91,7 +87,7 @@ function Login({ children }) {
                 // {...Layout}
                 name="basic"
                 labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
+                wrapperCol={{ span: 8 }}
                 initialValues={{ remember: true }}
                 onFinish={onFinish}
                 // onFinishFailed={onFinishFailed}
@@ -108,7 +104,7 @@ function Login({ children }) {
                   ]}
                   hasFeedback
                   {...filedErrors.username}>
-                  <Input />
+                  <Input autoFocus />
                 </Form.Item>
 
                 <Form.Item

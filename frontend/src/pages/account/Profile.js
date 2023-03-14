@@ -1,15 +1,16 @@
-import { Card, Form, Avatar, Menu } from "antd";
+import { Avatar, Card } from "antd";
 import AppFootter from "components/applayout/AppFooter";
 import AppHeader from "components/applayout/AppHeader";
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAppContext } from "store";
-import { axiosInstance, useAxios } from "utils/api";
+import { useAxios } from "utils/api";
 import "./Profile.scss";
 
 function Profile({ props }) {
   const history = useHistory();
   const [profileData, setProfileData] = useState(null);
+
   const {
     store: { jwtToken },
   } = useAppContext();
@@ -26,40 +27,14 @@ function Profile({ props }) {
     }
   }, [response]);
 
-  console.log("response", response);
-  let items = null;
-  if (profileData) {
-    items = [
-      {
-        label: profileData.username,
-        key: "avtar",
-        icon: (
-          <Avatar
-            size={{ xxl: 200 }}
-            icon={<img src={profileData.avatar_url} alt={"유저아이디"}></img>}
-          />
-        ),
-      },
-      {
-        label: (
-          <Link to={`/search/${profileData.username}`}>
-            Feed : {profileData.post_count}
-          </Link>
-        ),
-        key: "caption",
-      },
-
-      {
-        label: <Link to={"/"}>팔로잉 : {profileData.followings_count}</Link>,
-        key: "followings_count",
-      },
-      {
-        label: <Link to={"/"}>팔로워 : {profileData.followers_count}</Link>,
-        key: "followers_count",
-      },
-    ];
+  if (loading || !profileData) {
+    return <div>Loading...</div>;
   }
 
+  if (error) {
+    return <div>Error occurred while fetching profile data</div>;
+  }
+  console.log(response);
   return (
     <div className="Profile">
       <div className="Profile_header">
@@ -67,17 +42,28 @@ function Profile({ props }) {
       </div>
 
       <div className="Profile_contents">
-
-        <Card title="profile 페이지!">
-          <Menu
-            mode="horizontal"
-            items={items}
-          />
-        </Card>
-        <Card>
-          <p>뭐를 보여줄까요?</p>
-        </Card>
+        <div className="profile_avatar">
+          <Avatar
+            size={160}
+            src={profileData.avatar_url}
+            alt={profileData.username}></Avatar>
+        </div>
+        <div className="profile_username">
+          <h1>{profileData.username} </h1>
+        </div>
+        <div className="profile_detail">
+          <div className="detail_item">
+            <Link to={"/"}>게시물 : {profileData.post_count}</Link>
+          </div>
+          <div className="detail_item">
+            <Link to={"/"}>팔로워 : {profileData.followers_count}</Link>
+          </div>
+          <div className="detail_item">
+            <Link to={"/"}>팔로윙 : {profileData.followings_count}</Link>
+          </div>
+        </div>
       </div>
+      <div className="profile_mypost">포스트ㅁㄴㅇㅁㄴㅇ 내용들</div>
       <div className="Profile_footer">
         <AppFootter></AppFootter>
       </div>

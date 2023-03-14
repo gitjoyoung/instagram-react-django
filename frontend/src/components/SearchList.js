@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Alert, Card } from "antd";
 import { useAppContext } from "store";
-import { axiosInstance, useAxios } from "utils/api";
+import { useAxios } from "utils/api";
 
 const SearchList = () => {
   const location = useLocation();
@@ -17,7 +17,7 @@ const SearchList = () => {
 
   const headers = { Authorization: `JWT ${jwtToken}` };
 
-  const [{ data: response, loading, error }, refetch] = useAxios({
+  const [{ data: response, loading, error }] = useAxios({
     url: "/api/posts/",
     headers,
     params: {
@@ -42,7 +42,7 @@ const SearchList = () => {
         {loading && <p>Loading...</p>}
         {error && (
           <Alert
-            message={`Failed to load search results: ${error.message}`}
+            message={`로그인이 되어있지 않습니다! : ${error.message}`}
             type="error"
           />
         )}

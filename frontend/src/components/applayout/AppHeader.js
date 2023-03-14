@@ -8,7 +8,7 @@ import { useHistory, useLocation, Link } from "react-router-dom";
 import { useAppContext, deleteToken } from "store";
 import "./AppHeader.scss";
 
-const AppHeader = () => {
+export default function AppHeader() {
   const history = useHistory();
   const location = useLocation();
   const {
@@ -70,7 +70,7 @@ const AppHeader = () => {
       </div>
       <div className="header_menu">
         <Menu
-          style={{ justifyContent: "right" , borderBottom:"none"}}
+          style={{ justifyContent: "right", borderBottom: "none" }}
           onClick={(item) => {
             handleMenuClick(item.key);
           }}
@@ -85,6 +85,4 @@ const AppHeader = () => {
       </div>
     </header>
   );
-};
-
-export default AppHeader;
+}
