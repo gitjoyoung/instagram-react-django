@@ -21,15 +21,25 @@ export default function AppHeader() {
   const getMenuItems = (jwtToken) => {
     if (jwtToken) {
       return [
-        { label: "Profile", key: "accounts/profile", type: "user", icon: null },
-        { label: "Logout", key: "accounts/logout", type: "logout", icon: null },
-        { label: "", key: "accounts/game", type: "game", icon: GAME_ICON },
+        {
+          label: "Profile",
+          key: "/accounts/profile",
+          type: "user",
+          icon: null,
+        },
+        {
+          label: "Logout",
+          key: "/accounts/logout",
+          type: "logout",
+          icon: null,
+        },
+        { label: "", key: "/accounts/game", type: "game", icon: GAME_ICON },
       ];
     } else {
       return [
-        { label: "Login", key: "accounts/login", type: "user", icon: null },
-        { label: "Signup", key: "accounts/signup", type: "user", icon: null },
-        { label: "", key: "accounts/game", type: "game", icon: GAME_ICON },
+        { label: "Login", key: "/accounts/login", type: "user", icon: null },
+        { label: "Signup", key: "/accounts/signup", type: "user", icon: null },
+        { label: "", key: "/accounts/game", type: "game", icon: GAME_ICON },
       ];
     }
   };
@@ -38,7 +48,7 @@ export default function AppHeader() {
 
   useEffect(() => {
     setMenuItems(getMenuItems(jwtToken));
-  }, [jwtToken]);
+  }, []);
 
   const handleLogout = () => {
     message.success("로그아웃 되었습니다.");
@@ -46,14 +56,16 @@ export default function AppHeader() {
     history.push("/");
   };
 
+  //버튼이벤트
   const handleMenuClick = (key) => {
-    const path = `/${key}`;
-    if (path === "/accounts/logout") {
+    if (key === "/accounts/logout") {
       handleLogout();
     } else {
-      history.replace(path);
+      history.push(key);
     }
   };
+
+  //검색
   const handleSearch = (searchValue) => {
     history.push(`/search/${searchValue}`);
   };
@@ -74,14 +86,9 @@ export default function AppHeader() {
           onClick={(item) => {
             handleMenuClick(item.key);
           }}
+          items={menuItems}
           mode="horizontal"
-          selectedKeys={[location.pathname]}>
-          {menuItems.map((item) => (
-            <Menu.Item key={item.key} icon={item.icon}>
-              {item.label}
-            </Menu.Item>
-          ))}
-        </Menu>
+          selectedKeys={[location.pathname]}></Menu>
       </div>
     </header>
   );

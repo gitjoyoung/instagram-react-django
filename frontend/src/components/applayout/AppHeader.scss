@@ -1,7 +1,7 @@
 .header_component {
   width: 1024px;
   max-width: 100%;
-  margin: 20px auto;
+  margin: 10px auto;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 
@@ -21,3 +21,6 @@
     grid-area: menu;
   }
 }
+
+
+

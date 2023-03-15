@@ -5,6 +5,7 @@ import { Row, Col, Form, Input, Button, notification, Card } from "antd";
 import { useHistory } from "react-router-dom";
 import AppHeader from "components/applayout/AppHeader";
 import { useAppContext } from "store";
+import AppFootter from "components/applayout/AppFooter";
 export default function Signup() {
   const history = useHistory();
   const [fieldErrors, setFieldErrors] = useState({});
@@ -130,6 +131,7 @@ export default function Signup() {
           <Col align="middle" span={8}></Col>
         </Row>
       </div>
+      <AppFootter></AppFootter>
     </div>
   );
 }

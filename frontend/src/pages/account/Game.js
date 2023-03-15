@@ -17,10 +17,7 @@ export const Game = () => {
         <AppFooter />
       </div>
 
-      <div className="firework">
-        <div className="firework-before">asd</div>
-        <div className="firework-after">asd</div>
-      </div>
+    
     </div>
   );
 };

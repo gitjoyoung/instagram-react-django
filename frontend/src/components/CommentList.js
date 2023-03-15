@@ -63,10 +63,12 @@ export default function CommentList({ post }) {
           .map((comment) => (
             <Comment key={comment.id} comment={comment}></Comment>
           ))}
-      {commentList && commentList.length > 3 && (
-        <span onClick={handleShowMore} style={{ color: "blue" }}>
-          {showMore ? "접기" : "더 보기"}
-        </span>
+      {commentList && commentList.length > 2 && (
+        <div style={{textAlign:"center" , marginBottom:"12px"}}> 
+          <span onClick={handleShowMore} style={{ color: "blue" }}>
+            {showMore ? "접기" : `${commentList.length-2}개의 댓글 더 보기`}
+          </span>
+        </div>
       )}
       <Input.TextArea
         style={{ marginBottom: ".5em" }}

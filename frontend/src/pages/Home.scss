@@ -12,18 +12,27 @@
   min-width: 800px;
   margin: 0px auto;
   .home_header {
+    position: fixed;
+    background-color: white;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
     grid-area: header;
   }
   .home_contents {
+    margin-top: 100px;
     min-height: 1000px;
 
     grid-area: contents;
   }
 
   .home_sidebar {
+    margin-top: 100px;
     grid-area: sidebar;
   }
   .home_footer {
+    margin-top: 100px;
     grid-area: footer;
   }
 }

@@ -16,7 +16,7 @@ const SearchList = () => {
   } = useAppContext();
 
   const headers = { Authorization: `JWT ${jwtToken}` };
-
+  
   const [{ data: response, loading, error }] = useAxios({
     url: "/api/posts/",
     headers,
@@ -42,7 +42,7 @@ const SearchList = () => {
         {loading && <p>Loading...</p>}
         {error && (
           <Alert
-            message={`로그인이 되어있지 않습니다! : ${error.message}`}
+            message={`로그인후 검색이 가능합니다!! : ${error.message}`}
             type="error"
           />
         )}

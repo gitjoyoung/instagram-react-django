@@ -6,7 +6,7 @@ import { useAppContext, setToken } from "store";
 import { parseErrorMessages } from "utils/form";
 import { axiosInstance } from "utils/api";
 import AppHeader from "components/applayout/AppHeader";
-import { Footer } from "antd/lib/layout/layout";
+import AppFootter from "components/applayout/AppFooter";
 //로그인
 function Login({ children }) {
   const { dispatch } = useAppContext();
@@ -135,7 +135,7 @@ function Login({ children }) {
       </div>
 
       <div className="login_footer">
-        <Footer></Footer>
+        <AppFootter></AppFootter>
       </div>
     </div>
   );

@@ -45,9 +45,10 @@ export default function PostNewForm() {
     const headers = { Authorization: `JWT ${jwtToken}` };
 
     try {
-      const response =  await axiosInstance.post("/api/posts/", formData, {
+      const response = await axiosInstance.post("/api/posts/", formData, {
         headers,
       });
+
       notification.open({
         message: "게시글 작성 확인",
         description: "게시글 작성하였습니다 ",
@@ -136,8 +137,7 @@ export default function PostNewForm() {
       </Form.Item>
 
       <Modal
-        visible={previewPhoto.visible}
-        footer={null}
+        open={previewPhoto.visible}
         onCancel={() => setPreviewPhoto({ visible: false })}>
         <img
           src={previewPhoto.base64}

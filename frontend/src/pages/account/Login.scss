@@ -1,27 +1,28 @@
 //GameApp 게임 페이지
 .Login {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-  
-    grid-template-areas:
-      "header header header"
-      "contents contents contents"
-      "footer footer footer";
-    gap: 1rem;
-    width: 1024px;
-    max-width: 100%;
-    margin: 0px auto;
-  
-    .login_header {
-      grid-area: header;
-    }
-    .login_contents {
-      grid-area: contents;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 
-    }
-    .login_footer {
-      grid-area: footer;
-      align-items: center;
-    }
+  grid-template-areas:
+    "header header header"
+    "contents contents contents"
+    "footer footer footer";
+  gap: 1rem;
+  width: 1024px;
+  max-width: 100%;
+  margin: 0px auto;
+
+  .login_header {
+    grid-area: header;
   }
-  
+  .login_contents {
+    grid-area: contents;
+    margin-bottom: 20px;
+  }
+
+  .login_footer {
+    margin-top: 120px;
+    grid-area: footer;
+    align-items: center;
+  }
+}
