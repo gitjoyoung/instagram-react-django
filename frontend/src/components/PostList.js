@@ -12,29 +12,48 @@ function PostList() {
   } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
   const headers = { Authorization: `JWT ${jwtToken}` };
+  const [prevPostCount, setPrevPostCount] = useState(0);
+
   const [newPostCount, setNewPostCount] = useState(0);
   const [postList, setPostList] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
 
+  // 처음 게시물 업로드
+  useEffect(() => {
     const fetchPosts = async () => {
       try {
         const { data } = await axiosInstance.get("/api/posts/", {
           headers,
-          signal,
         });
         setPostList(data);
+        setPrevPostCount(data.length);
       } catch (error) {
         console.log("error :", error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchPosts()
-  }, [refresh]);
+    fetchPosts();
+  }, []);
 
+  console.log("use prev", prevPostCount);
+
+  //5초마다 정보조회
+  // const fetchPosts = async () => {
+  //   try {
+  //     const { data } = await axiosInstance.get("/api/posts/", {
+  //       headers,
+  //     });
+  //     console.log("prev", prevPostCount);
+  //     console.log(data.length);
+  //   } catch (error) {
+  //     console.log("error :", error);
+  //   }
+  // };
+
+  // setInterval(fetchPosts, 5000);
+
+  // 리프레쉬 버튼
   const handleRefresh = () => {
     setRefresh((prevRefresh) => !prevRefresh);
   };
@@ -129,11 +148,11 @@ function PostList() {
       {postList &&
         postList.map((post) => (
           <Post
-            post={post}
             key={post.id}
+            post={post}
             handleLike={handleLike}
-            handleUpdate={handleUpdate}
             handleDelete={handleDelete}
+            handleUpdate={handleUpdate}
           />
         ))}
     </div>

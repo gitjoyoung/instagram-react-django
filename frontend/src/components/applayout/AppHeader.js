@@ -16,39 +16,46 @@ export default function AppHeader() {
     store: { jwtToken },
   } = useAppContext();
 
+  const [menuItems, setMenuItems] = useState();
+
+
   const GAME_ICON = <img style={{ width: 25 }} src={GameIcon} alt="game" />;
 
-  const getMenuItems = (jwtToken) => {
-    if (jwtToken) {
-      return [
-        {
-          label: "Profile",
-          key: "/accounts/profile",
-          type: "user",
-          icon: null,
-        },
-        {
-          label: "Logout",
-          key: "/accounts/logout",
-          type: "logout",
-          icon: null,
-        },
-        { label: "", key: "/accounts/game", type: "game", icon: GAME_ICON },
-      ];
-    } else {
-      return [
-        { label: "Login", key: "/accounts/login", type: "user", icon: null },
-        { label: "Signup", key: "/accounts/signup", type: "user", icon: null },
-        { label: "", key: "/accounts/game", type: "game", icon: GAME_ICON },
-      ];
-    }
-  };
-
-  const [menuItems, setMenuItems] = useState(getMenuItems(jwtToken));
+  
 
   useEffect(() => {
-    setMenuItems(getMenuItems(jwtToken));
-  }, []);
+    const getMenuItems = () => {
+      if (jwtToken) {
+        return [
+          {
+            label: "Profile",
+            key: "/accounts/profile",
+            type: "user",
+            icon: null,
+          },
+          {
+            label: "Logout",
+            key: "/accounts/logout",
+            type: "logout",
+            icon: null,
+          },
+          { label: "", key: "/accounts/game", type: "game", icon: GAME_ICON },
+        ];
+      } else {
+        return [
+          { label: "Login", key: "/accounts/login", type: "user", icon: null },
+          {
+            label: "Signup",
+            key: "/accounts/signup",
+            type: "user",
+            icon: null,
+          },
+          { label: "", key: "/accounts/game", type: "game", icon: GAME_ICON },
+        ];
+      }
+    };
+    setMenuItems(getMenuItems)
+  }, [jwtToken]);
 
   const handleLogout = () => {
     message.success("로그아웃 되었습니다.");
