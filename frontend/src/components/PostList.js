@@ -20,41 +20,55 @@ function PostList() {
 
   // 처음 게시물 업로드
   useEffect(() => {
-    const fetchPosts = async () => {
+    const newFetchPosts = async () => {
       try {
         const { data } = await axiosInstance.get("/api/posts/", {
           headers,
         });
+
+        if (prevPostCount === 0) {
+          setPrevPostCount(data.length);
+        }
         setPostList(data);
-        setPrevPostCount(data.length);
       } catch (error) {
         console.log("error :", error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchPosts();
-  }, []);
+    newFetchPosts();
+  }, [refresh]);
 
-  console.log("use prev", prevPostCount);
+  // 새로운 글 실시간 조회
+  useEffect(() => {
+    const newFetchPosts = async () => {
+      try {
+        const { data } = await axiosInstance.get("/api/posts/", {
+          headers,
+        });
 
-  //5초마다 정보조회
-  // const fetchPosts = async () => {
-  //   try {
-  //     const { data } = await axiosInstance.get("/api/posts/", {
-  //       headers,
-  //     });
-  //     console.log("prev", prevPostCount);
-  //     console.log(data.length);
-  //   } catch (error) {
-  //     console.log("error :", error);
-  //   }
-  // };
+        if (data && prevPostCount > 0) {
+          if (data.length - prevPostCount > 0) {
+            setNewPostCount(data.length - prevPostCount);
+          } else {
+            setNewPostCount(0);
+          }
+        }
+      } catch (error) {
+        console.log("error :", error);
+      }
+    };
+    newFetchPosts();
 
-  // setInterval(fetchPosts, 5000);
+    const intervalId = setInterval(newFetchPosts, 5000);
+
+    return () => clearInterval(intervalId);
+  }, [prevPostCount]);
 
   // 리프레쉬 버튼
   const handleRefresh = () => {
+    setPrevPostCount(0);
+
     setRefresh((prevRefresh) => !prevRefresh);
   };
 
