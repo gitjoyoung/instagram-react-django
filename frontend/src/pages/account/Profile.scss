@@ -21,8 +21,7 @@
     justify-self: center;
     grid-area: contents;
     display: grid;
-   
-  
+
     grid-template-areas:
       "avatar avatar username username"
       "avatar avatar detail detail";
@@ -43,11 +42,17 @@
     }
   }
   .profile_mypost {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
     justify-self: center;
     width: 95%;
     border-top: 1px solid #000;
     margin-top: 30px;
     grid-area: mypost;
+    .mypost_item {
+      margin: 10px;
+    }
   }
   .Profile_footer {
     grid-area: footer;

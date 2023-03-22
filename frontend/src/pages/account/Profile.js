@@ -5,11 +5,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useAppContext } from "store";
 import { useAxios } from "utils/api";
+import Post from "components/Post";
 import "./Profile.scss";
 
 function Profile({ props }) {
   const history = useHistory();
   const [profileData, setProfileData] = useState(null);
+  const [postList, setPostList] = useState(null);
+
 
   const {
     store: { jwtToken },
@@ -20,21 +23,21 @@ function Profile({ props }) {
     url: "/accounts/profile/",
     headers,
   });
+  console.log(response)
 
   useEffect(() => {
     if (response) {
       setProfileData(response);
+      setPostList(response.posts)
     }
+  
   }, [response]);
 
-  if (loading || !profileData) {
+  if (loading || !profileData ) {
     return <div>Loading...</div>;
   }
 
-  if (error) {
-    return <div>Error occurred while fetching profile data</div>;
-  }
-  console.log(response);
+  console.log(postList);
   return (
     <div className="Profile">
       <div className="Profile_header">
@@ -63,7 +66,14 @@ function Profile({ props }) {
           </div>
         </div>
       </div>
-      <div className="profile_mypost">포스트ㅁㄴㅇㅁㄴㅇ 내용들</div>
+      <div className="profile_mypost">
+        {postList &&
+          postList.map((post) => ( 
+            <div className="mypost_item" key={"item" + post.id}>
+              <Post key={post.id} post={post} />
+            </div>
+          ))}
+      </div>
       <div className="Profile_footer">
         <AppFootter></AppFootter>
       </div>

@@ -4,6 +4,8 @@ import { Input, Button } from "antd";
 import { axiosInstance, useAxios } from "utils/api";
 import { useAppContext } from "store";
 import Comment from "./Comment";
+
+
 export default function CommentList({ post }) {
   const {
     store: { jwtToken },
@@ -33,7 +35,6 @@ export default function CommentList({ post }) {
         { message: commentContent },
         { headers }
       );
-      console.log(response);
       setcommentContent("");
       refetch();
     } catch (error) {

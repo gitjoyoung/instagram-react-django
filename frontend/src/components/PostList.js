@@ -39,6 +39,8 @@ function PostList() {
     newFetchPosts();
   }, [refresh]);
 
+
+  console.log("postList" ,postList)
   // 새로운 글 실시간 조회
   useEffect(() => {
     const newFetchPosts = async () => {

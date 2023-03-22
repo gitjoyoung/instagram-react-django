@@ -20,7 +20,6 @@ export default function SuggestionList({ style }) {
   });
 
   useEffect(() => {
-    console.log("originUserList", originUserList);
     if (!originUserList) setUserList([]);
     else {
       const slicedUserList = originUserList.slice(0, 10);
@@ -42,7 +41,6 @@ export default function SuggestionList({ style }) {
             user.username !== username ? user : { ...user, is_follow: true }
           )
         );
-        console.log(" 팔로우 response",response)
 
       })
       .catch((error) => {
@@ -60,7 +58,6 @@ export default function SuggestionList({ style }) {
             user.username !== username ? user : { ...user, is_follow: false }
           )
         );
-        console.log(" 언팔로우 response",response)
       })
       .catch((error) => {
         console.log(error);
