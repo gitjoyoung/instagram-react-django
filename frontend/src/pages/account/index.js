@@ -7,7 +7,7 @@ import Login from "./Login";
 import Signup from "./Signup";
 import Game from "./Game";
 import AppEvent from "./AppEvent";
-import SearchList from "components/SearchList";
+import GoogleButton from "components/GoogleButton";
 function Routes({ match }) {
   return (
     <>
@@ -16,6 +16,9 @@ function Routes({ match }) {
       <Route exact path={match.url + "/signup"} component={Signup} />
       <Route exact path={match.url + "/game"} component={Game} />
       <Route exact path={match.url + "/event"} component={AppEvent} />
+      <Route exact path={match.url + "/google"} component={GoogleButton} />
+
+
     </>
   );
 }

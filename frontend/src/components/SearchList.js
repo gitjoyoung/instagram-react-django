@@ -16,7 +16,7 @@ const SearchList = () => {
   } = useAppContext();
 
   const headers = { Authorization: `JWT ${jwtToken}` };
-  
+
   const [{ data: response, loading, error }] = useAxios({
     url: "/api/posts/",
     headers,
@@ -57,18 +57,18 @@ const SearchList = () => {
                     alt={post.caption}
                   />
                 }
-                title={post.author.username}
-                description={post.caption}
+                title={post.caption}
+                description={post.location}
                 style={{ marginBottom: "0.5em" }}
               />
               <p style={{ marginTop: "0.5em", textAlign: "right" }}>
-                #{searchResults.length - index}
+                {searchResults.length - index}
               </p>
             </Card>
           ))
         ) : (
           <Alert
-            message={`No results for "${searchListTerm}"`}
+            message={` 검색결과가 없네요 ..  "${searchListTerm}"`}
             type="warning"
           />
         )}

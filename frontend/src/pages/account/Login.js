@@ -7,6 +7,7 @@ import { parseErrorMessages } from "utils/form";
 import { axiosInstance } from "utils/api";
 import AppHeader from "components/applayout/AppHeader";
 import AppFootter from "components/applayout/AppFooter";
+import GoogleButton from "components/GoogleButton";
 //로그인
 function Login({ children }) {
   const { dispatch } = useAppContext();
@@ -116,6 +117,7 @@ function Login({ children }) {
                   {...filedErrors.password}>
                   <Input.Password />
                 </Form.Item>
+                <GoogleButton/>
 
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                   <Button

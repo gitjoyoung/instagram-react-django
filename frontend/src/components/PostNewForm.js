@@ -19,6 +19,7 @@ export default function PostNewForm() {
 
   const handleUploadChange = ({ fileList }) => {
     setFileList(fileList);
+    console.log("filedata " ,fileList)
   };
 
   const handlePreviewPhoto = async (file) => {
@@ -43,7 +44,7 @@ export default function PostNewForm() {
     fileList.forEach((file) => formData.append("photo", file.originFileObj));
 
     const headers = { Authorization: `JWT ${jwtToken}` };
-
+    console.log("filedata " ,fileList)
     try {
       const response = await axiosInstance.post("/api/posts/", formData, {
         headers,
@@ -85,6 +86,7 @@ export default function PostNewForm() {
         rules={[{ required: true, message: "사진을 입력해주세요" }]}
         hasFeedback
         {...fieldErrors.photo}>
+         
         <Upload
           listType="picture-card"
           fileList={fileList}
@@ -100,6 +102,7 @@ export default function PostNewForm() {
             </div>
           )}
         </Upload>
+       
       </Form.Item>
       <Form.Item
         label="제목"

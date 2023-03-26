@@ -11,11 +11,11 @@ function PostList() {
     store: { jwtToken },
   } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
-  const headers = { Authorization: `JWT ${jwtToken}` };
   const [prevPostCount, setPrevPostCount] = useState(0);
+  const [postList , setPostList] = useState([])
+  const headers = { Authorization: `JWT ${jwtToken}` };
 
   const [newPostCount, setNewPostCount] = useState(0);
-  const [postList, setPostList] = useState([]);
   const [refresh, setRefresh] = useState(false);
 
   // 처음 게시물 업로드
@@ -97,12 +97,13 @@ function PostList() {
     }
   };
 
-  //글 수정 업데이트
-  const handleUpdate = async (post) => {
+   //글 수정 업데이트
+   const handleUpdate = async (post) => {
+    console.log("온서브밋 요청")
     try {
       const { data } = await axiosInstance.put(
         `/api/posts/${post.id}/`,
-        { caption: post.caption },
+        { PostList },
         { headers }
       );
       setPostList((prevList) =>

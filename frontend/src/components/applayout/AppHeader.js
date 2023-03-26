@@ -18,10 +18,7 @@ export default function AppHeader() {
 
   const [menuItems, setMenuItems] = useState();
 
-
   const GAME_ICON = <img style={{ width: 25 }} src={GameIcon} alt="game" />;
-
-  
 
   useEffect(() => {
     const getMenuItems = () => {
@@ -54,7 +51,7 @@ export default function AppHeader() {
         ];
       }
     };
-    setMenuItems(getMenuItems)
+    setMenuItems(getMenuItems);
   }, [jwtToken]);
 
   const handleLogout = () => {
