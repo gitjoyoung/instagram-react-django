@@ -28,6 +28,7 @@ class PostSerializer(serializers.ModelSerializer):
             user = self.context["request"].user
             return post.like_user_set.filter(pk=user.pk).exists()
         return False
+
     class Meta:
         model =Post
         fields = ["id" , "author" , "created_at" , "photo" , "caption", "location" , "tag_set" , "is_like" ]

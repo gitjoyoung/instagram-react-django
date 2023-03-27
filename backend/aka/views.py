@@ -12,6 +12,7 @@ from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from rest_framework.views import APIView
 
+
 class PostViewSet(ModelViewSet):
     queryset = (
         Post.objects.all()
@@ -20,7 +21,10 @@ class PostViewSet(ModelViewSet):
     )
     serializer_class = PostSerializer
     permission_classes = [AllowAny]  # FIXME: 인증 적용
-    
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.filter(author=self.request.user)
+        return qs
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset().filter(
             Q(author__username__icontains=request.GET.get("username", ""))
@@ -115,3 +119,13 @@ class CommentViewSet(ModelViewSet):
             return Response({'detail': '권한이 없습니다.'}, status=status.HTTP_403_FORBIDDEN)
         instance.delete()
   
+class MyPageView(APIView):
+    def get(self, request, *args, **kwargs):
+        # 현재 로그인한 사용자가 작성한 포스트와 댓글 목록을 조회
+        posts = Post.objects.filter(author=request.user).prefetch_related('comment_set')
+        
+        # 시리얼라이저를 이용하여 JSON 형식으로 변환
+        serializer = PostSerializer(posts, many=True)
+        
+        # 응답으로 반환
+        return Response(serializer.data)
