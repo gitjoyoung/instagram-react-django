@@ -32,10 +32,7 @@ function ModalEvent() {
 
   return (
     <>
-      <div style={rightStyle}>
-        {isModalOpen && alert("깜짝")
-        }
-      </div>
+      <div style={rightStyle}>{isModalOpen && alert("깜짝")}</div>
     </>
   );
 }
