@@ -10,7 +10,6 @@ const Post = React.memo(({ post, handleLike, handleUpdate, handleDelete }) => {
   const { author, caption, location, photo, is_like, created_at } = post;
   const { username, avatar_url } = author;
 
-  console.log("그림 여러개 일시 어떻게 가져오나보자", post);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
