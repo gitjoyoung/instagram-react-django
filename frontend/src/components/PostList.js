@@ -12,7 +12,7 @@ function PostList() {
   } = useAppContext();
   const [isLoading, setIsLoading] = useState(true);
   const [prevPostCount, setPrevPostCount] = useState(0);
-  const [postList , setPostList] = useState([])
+  const [postList, setPostList] = useState([]);
   const headers = { Authorization: `JWT ${jwtToken}` };
 
   const [newPostCount, setNewPostCount] = useState(0);
@@ -39,8 +39,7 @@ function PostList() {
     newFetchPosts();
   }, [refresh]);
 
-
-  console.log("postList" ,postList)
+  console.log("postList", postList);
   // 새로운 글 실시간 조회
   useEffect(() => {
     const newFetchPosts = async () => {
@@ -97,20 +96,34 @@ function PostList() {
     }
   };
 
-   //글 수정 업데이트
-   const handleUpdate = async (post) => {
-    console.log("온서브밋 요청")
+  //글 수정 업데이트
+  const handleUpdate = async (post) => {
+    const { id, author, caption, location, photo } = post;
+    const postdata = {
+      id: 68,
+      author: {
+        username: "user",
+        name: "이름 성",
+        avatar_url: "http://localhost:8000/identicon/image/user.png",
+      },
+
+      photo:
+        "http://localhost:8000/media/aka/post/2023/04/04/K-292_t4iLIh1.png",
+      caption: "ㅁㄴㅁㄴ",
+      location: "ㅁㄴㅁㄴ",
+      tag_set: [],
+      is_like: true,
+    };
+
     try {
       const { data } = await axiosInstance.put(
         `/api/posts/${post.id}/`,
-        { PostList },
-        { headers }
+        JSON.stringify(postdata),
+        {
+          headers,
+        }
       );
-      setPostList((prevList) =>
-        prevList.map((currentPost) =>
-          currentPost.id === post.id ? { ...data } : currentPost
-        )
-      );
+      console.log(data);
     } catch (error) {
       console.log("error :", error);
     }

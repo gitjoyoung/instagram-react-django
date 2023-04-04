@@ -44,7 +44,7 @@ export default function PostNewForm() {
     fileList.forEach((file) => formData.append("photo", file.originFileObj));
 
     const headers = { Authorization: `JWT ${jwtToken}` };
-    console.log("filedata " ,fileList)
+    console.log("fileList " ,fileList)
     try {
       const response = await axiosInstance.post("/api/posts/", formData, {
         headers,

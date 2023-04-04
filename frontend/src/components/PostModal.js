@@ -3,6 +3,8 @@ import { Button, Form, Input, Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import CommentList from "./CommentList";
 import { getBase64FromFile } from "utils/base64";
+import { useAppContext } from "store";
+import { axiosInstance } from "utils/api";
 
 const PostModal = React.memo(
   ({ post, isOpen, isClose, handleUpdate, handleDelete }) => {
@@ -11,6 +13,10 @@ const PostModal = React.memo(
       visible: false,
       base64: null,
     });
+    const {
+      store: { jwtToken },
+    } = useAppContext();
+    const headers = { Authorization: `JWT ${jwtToken}` };
     const [PostList, setPostList] = useState([]);
     const [fileList, setFileList] = useState([]);
     const handlePreviewPhoto = async (file) => {
@@ -40,6 +46,28 @@ const PostModal = React.memo(
     if (update) {
       console.log("업데이트 true");
     }
+
+    const updatePost = async (a) => {
+      console.log(a)
+      const data = {
+        caption: "새로운 캡션",
+        content: "새로운 내용",
+        author: "새로운 작성자",
+        photo: "http://localhost:8000/media/aka/post/2023/04/04/unnamed_1.png",
+      };
+      try {
+        const confirm = await axiosInstance({
+          url: `/api/posts/${a}/`,
+          data,
+          headers,
+        });
+        
+      } catch (error) {
+        console.log(error)
+      }
+    
+  
+    };
 
     return (
       <div>
@@ -112,14 +140,14 @@ const PostModal = React.memo(
                   <Form.Item label="tag">
                     <Input defaultValue={post.tag} />
                   </Form.Item>
-
+                  <Form.Item>{/* <div>{post}</div> */}</Form.Item>
                   <Form.Item>
                     <Button
                       size="large"
-                      onSubmit={() => {
-                        handleUpdate(post);
+                      onClick={() => {
+                        updatePost(post.id);
                       }}>
-                      수정
+                      수정하기
                     </Button>
                     <Button
                       size="large"
